@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito&display=swap');
+
+/* https://colorhunt.co/palette/404258474e6850577a6b728e */
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: "Montserrat", "sans-serif";
+    background-color: #404258;
+    color: #FCFCFC;
+}
+
+.title {
+    letter-spacing: 2px;
+}
+
+main {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+}
+
+.calculator-container {
+    display: flex;
+    width: 25rem;
+    height: 40rem;
+    flex-flow: column wrap;
+    justify-content: center;
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: #474E68;
+}
+
+.row {
+    display: flex;
+    justify-content: space-evenly;
+    flex: 1 1 0;
+}
+
+.display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    background-color: #474E68;
+}
+
+.buttons {
+    display: flex;
+    flex-flow: column wrap;
+    flex: 2;
+    background-color: #50577A;
+    border-radius: 30px;
+    padding: 20px 0;
+    gap: 10px;
+}
+
+button {
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    background-color: #6B728E;
+    border: none;
+    border-radius: 10px;
+    color: #FCFCFC;
+}
+
+.footer {
+    padding: 10px;
+}
