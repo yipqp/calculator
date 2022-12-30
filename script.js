@@ -1,31 +1,65 @@
 const numbers = document.querySelectorAll(".numbers");
+const operations = document.querySelectorAll(".operations");
 const display = document.querySelector("#display");
 const clear = document.querySelector("#clear");
 
+let prevValue;
+let nextValue;
+let operator;
+let isOperating = false;
+let storingNextValue = false;
+
 numbers.forEach(number => {
-    number.addEventListener("click", updateDisplay)
+    number.addEventListener("click", updateDisplay);
 });
 
 function updateDisplay() { 
-    const number = this.id;
+    const pressed = this.id;
     let value = display.textContent;
-    
+
     if (value === "0") {
-        if (number === "-") return;
-        display.textContent = number;
+        if (pressed === "-") return;
+        else if (pressed === ".") value += pressed;
+        else value = pressed;
     } else if (value.length < 17) {
-        if (number === "." && value.includes(".")) return;
-        if (number === "-") {
-            value.includes("-") ? value = value.slice(1) : value = number + value;       
+        if (pressed === "." && value.includes(".")) return;
+        if (pressed === "-") {
+            value.includes("-") ? value = value.slice(1) : value = pressed + value;       
         } else {
-           value += number; 
+           value += pressed; 
         }
-        display.textContent = value;
-    } 
+    }
+    
+    if (isOperating) {
+
+    }
+
+    display.textContent = value;
 }
 
-clear.addEventListener("click", e => display.textContent = 0);
+clear.addEventListener("click", allClear);
 
+function allClear() {
+    display.textContent = 0;
+    isOperating = false;
+    storingNextValue = false;
+
+}
+
+operations.forEach(operator => {
+    operator.addEventListener("click", storeValues);
+});
+
+function storeValues() {
+    prevValue = display.textContent;
+    operator = this.id;
+    storingNextValue = true;
+
+    if (isOperating) {
+
+    }
+    isOperating = true;
+}
 
 function add(a, b) {
     return a + b;
