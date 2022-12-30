@@ -32,7 +32,7 @@ main {
 
 .calculator-container {
     display: flex;
-    width: 25rem;
+    width: 24rem;
     height: 45rem;
     flex-flow: column wrap;
     justify-content: center;
@@ -50,10 +50,17 @@ main {
 
 #display {
     display: flex;
+    flex-direction: column;
+    padding: 25px;
     justify-content: flex-end;
     align-items: flex-end;
-    padding: 0 25px 25px;
+    gap: 25px;
     flex: 1;
+}
+
+#top-display {
+    font-size: 1.3rem;
+    color: #e8e9f3ab;
 }
 
 .buttons {
@@ -63,7 +70,7 @@ main {
     background-color: #2A3250;
     border-radius: 30px;
     padding: 20px 0;
-    gap: 10px;
+    gap: 9px;
 }
 
 button {
