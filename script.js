@@ -126,7 +126,8 @@ function del() {
 function calculate() {
     if (currentValue === "0" && prevValue !== "0" || currentOperator === undefined || !isOperating) return;
     updateTopDisplay(); 
-    currentValue = +operate(currentOperator, prevValue, currentValue).toFixed(15); // round long decimals
+    currentValue = +operate(currentOperator, prevValue, currentValue).toFixed(13); // round long decimals
+    currentValue = currentValue.toString();
     updateMainDisplay();
     prevValue = "0";
     isOperating = false;
