@@ -18,18 +18,8 @@ let currentOperator; // function
 let waitingForInput = false;
 let equalClicked = false;
 
-numbers.forEach(button => {
-    button.addEventListener("click", setCurrentValue);
-});
-
 operations.forEach(operator => {
     operator.addEventListener("click", updateOperations);
-});
-
-equalButton.addEventListener("click", () => {
-    if (equalClicked || prevValue === "") return;
-    equalClicked = true;
-    updateValues();
 });
 
 addButton.addEventListener("click", () => storeOperator(add));
@@ -39,6 +29,16 @@ divideButton.addEventListener("click", () => storeOperator(divide));
 percentButton.addEventListener("click", getPercentage);
 deleteButton.addEventListener("click", deleteLastDigit);
 clear.addEventListener("click", clearAll);
+
+numbers.forEach(button => {
+    button.addEventListener("click", setCurrentValue);
+});
+
+equalButton.addEventListener("click", () => {
+    if (equalClicked || prevValue === "" || waitingForInput) return;
+    equalClicked = true;
+    updateValues();
+});
 
 function setCurrentValue() { 
     waitingForInput = false;
@@ -83,10 +83,15 @@ function updateOperations() {
 }
 
 function updateValues() {
-    calculate();
     updateTopDisplay();
-    if (!waitingForInput) {     
-        prevValue = currentValue; 
+    calculate();
+    /*
+    This prevents unintentionally calculating with 0
+    by spamming different operators without first giving an input.
+    */
+    if (!waitingForInput) {
+        prevValue = currentValue;
+        if (!equalClicked) updateTopDisplay();
         currentValue = "0";
     }
     waitingForInput = true; 
@@ -97,7 +102,8 @@ function calculate() {
     if (currentOperator === divide && currentValue === "0") {
         mainDisplay.textContent = "don't do that.";
     } else {
-        currentValue = round(operate(currentOperator, prevValue, currentValue));
+        if (equalClicked) updateTopDisplay();
+        currentValue = round(operate(currentOperator, prevValue, currentValue));  
         updateMainDisplay();
     }
 }
