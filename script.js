@@ -8,6 +8,7 @@ const subtractButton = document.querySelector("#subtract");
 const addButton = document.querySelector("#add");
 const equalButton = document.querySelector("#equals");
 const deleteButton = document.querySelector("#delete");
+const percentButton = document.querySelector("#percent");
 const clear = document.querySelector("#clear");
 let prevValue = "0";
 let currentValue = "0";
@@ -114,6 +115,8 @@ equalButton.addEventListener("click", calculate);
 
 deleteButton.addEventListener("click", del);
 
+percentButton.addEventListener("click", getPercentage);
+
 function del() {
     if (currentValue.length > 1) {
         currentValue = currentValue.slice(0, currentValue.length - 1);   
@@ -123,11 +126,22 @@ function del() {
     updateMainDisplay();
 }
 
+function getPercentage() {
+    currentValue *= 0.01;
+    currentValue = round(currentValue);
+    updateMainDisplay();
+}
+
+function round(value) {
+    value = +value.toFixed(13);
+    value = value.toString();
+    return value;
+}
+
 function calculate() {
     if (currentValue === "0" && prevValue !== "0" || currentOperator === undefined || !isOperating) return;
     updateTopDisplay(); 
-    currentValue = +operate(currentOperator, prevValue, currentValue).toFixed(13); // round long decimals
-    currentValue = currentValue.toString();
+    currentValue = round(operate(currentOperator, prevValue, currentValue));
     updateMainDisplay();
     prevValue = "0";
     isOperating = false;
