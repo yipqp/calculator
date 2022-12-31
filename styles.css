@@ -93,8 +93,14 @@ button {
     padding: 10px;
 }
 
-#clear {
+#clear,
+#delete {
     color: #F877A6;
+}
+
+.sign,
+#percent {
+    color: #93e0a4;
 }
 
 #equals {
