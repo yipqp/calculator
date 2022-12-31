@@ -14,13 +14,11 @@ const clear = document.querySelector("#clear");
 let prevValue = "";
 let currentValue = "0";
 let operationSymbol = "";
-let currentOperator; // function
+let currentOperator; // stores a function
 let waitingForInput = false;
 let equalClicked = false;
 
-operations.forEach(operator => {
-    operator.addEventListener("click", updateOperations);
-});
+operations.forEach((operator) => operator.addEventListener("click", updateOperations));
 
 addButton.addEventListener("click", () => storeOperator(add));
 subtractButton.addEventListener("click", () => storeOperator(subtract));
@@ -30,9 +28,7 @@ percentButton.addEventListener("click", getPercentage);
 deleteButton.addEventListener("click", deleteLastDigit);
 clear.addEventListener("click", clearAll);
 
-numbers.forEach(button => {
-    button.addEventListener("click", setCurrentValue);
-});
+numbers.forEach((button) => button.addEventListener("click", setCurrentValue));
 
 equalButton.addEventListener("click", () => {
     if (equalClicked || prevValue === "" || waitingForInput) return;
@@ -41,26 +37,21 @@ equalButton.addEventListener("click", () => {
 });
 
 function setCurrentValue() { 
-    waitingForInput = false;
     const pressed = this.id;
+    waitingForInput = false;
     if (currentValue === "0") {
-        if (pressed === "-") {
-            return; 
-        } else if (pressed === ".") {
-            currentValue += pressed;
-        } else {
-            currentValue = pressed;
-        }
+        if (pressed === "-") return; 
+        else if (pressed === ".") currentValue += pressed;
+        else currentValue = pressed;
     } else if (currentValue.length < 17) {
-        if (pressed === "." && currentValue.includes(".")) {
-            return;
-        }
+        if (pressed === "." && currentValue.includes(".")) return;
         if (pressed === "-") {
             currentValue.includes("-") ? currentValue = currentValue.slice(1) : currentValue = pressed + currentValue;       
         } else {
             currentValue += pressed; 
         }
     }
+
     updateMainDisplay();
 }
 
@@ -73,6 +64,7 @@ function updateTopDisplay() {
     if (equalClicked) {
         topDisplayMessage += `${currentValue} =`; 
     }
+    
     topDisplay.textContent = topDisplayMessage;
 }
 
@@ -85,24 +77,31 @@ function updateOperations() {
 function updateValues() {
     updateTopDisplay();
     calculate();
-    /*
-    This prevents unintentionally calculating with 0
-    by spamming different operators without first giving an input.
-    */
+
+    /**
+     * this prevents unintentionally calculating with 0
+     * by spamming different operators without first giving an input
+     */
     if (!waitingForInput) {
         prevValue = currentValue;
-        if (!equalClicked) updateTopDisplay();
+        if (!equalClicked) {
+            updateTopDisplay();
+        }
         currentValue = "0";
     }
+
     waitingForInput = true; 
 }
 
 function calculate() {
-    if (currentOperator === undefined || waitingForInput) return; 
+    if (currentOperator === undefined || waitingForInput) return;
+
     if (currentOperator === divide && currentValue === "0") {
         mainDisplay.textContent = "don't do that.";
     } else {
-        if (equalClicked) updateTopDisplay();
+        if (equalClicked) {
+            updateTopDisplay();
+        }
         currentValue = round(operate(currentOperator, prevValue, currentValue));  
         updateMainDisplay();
     }
@@ -133,11 +132,12 @@ function deleteLastDigit() {
     } else {
         currentValue = "0";
     }
+    
     updateMainDisplay();
 }
 
 function round(value) {
-    value = +value.toFixed(13);
+    value = +value.toFixed(5);
     value = value.toString();
     return value;
 }
