@@ -45,7 +45,7 @@ function updateMainDisplay() {
 
 function updateTopDisplay() {
     topDisplayMessage = `${prevValue} ${operationSymbol} `;
-    if (currentValue !== "0") {
+    if (!isOperating) {
         topDisplayMessage += `${currentValue} =`; 
     }
     topDisplay.textContent = topDisplayMessage;
@@ -73,10 +73,11 @@ function updateValues() {
     } else {   
         prevValue = currentValue;     
         updateMainDisplay();
-        currentValue = "0";
-        isOperating = true;        
+        currentValue = "0";   
+        isOperating = true;   
+        updateTopDisplay();
     }
-    updateTopDisplay();
+
 }
 
 const add = function (a, b) {
@@ -139,10 +140,15 @@ function round(value) {
 }
 
 function calculate() {
-    if (currentValue === "0" && prevValue !== "0" || currentOperator === undefined || !isOperating) return;
-    updateTopDisplay(); 
-    currentValue = round(operate(currentOperator, prevValue, currentValue));
-    updateMainDisplay();
-    prevValue = "0";
+    if (currentOperator === undefined || !isOperating) return;  
     isOperating = false;
+    updateTopDisplay(); 
+    if (currentOperator === divide && currentValue === "0") {
+        mainDisplay.textContent = "don't do that.";
+        currentValue = "0";
+    } else {
+        currentValue = round(operate(currentOperator, prevValue, currentValue));
+        updateMainDisplay();
+    }
+    prevValue = "0";
 }
