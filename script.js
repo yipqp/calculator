@@ -10,11 +10,12 @@ const equalButton = document.querySelector("#equals");
 const deleteButton = document.querySelector("#delete");
 const percentButton = document.querySelector("#percent");
 const clear = document.querySelector("#clear");
-let prevValue = "0";
+
+let prevValue = "";
 let currentValue = "0";
 let operationSymbol = "";
 let currentOperator; // function
-let isOperating = false;
+let hasResult = false;
 
 numbers.forEach(button => {
     button.addEventListener("click", setCurrentValue);
@@ -22,7 +23,6 @@ numbers.forEach(button => {
 
 function setCurrentValue() { 
     const pressed = this.id;
-
     if (currentValue === "0") {
         if (pressed === "-") return;
         else if (pressed === ".") currentValue += pressed; 
@@ -45,8 +45,9 @@ function updateMainDisplay() {
 
 function updateTopDisplay() {
     topDisplayMessage = `${prevValue} ${operationSymbol} `;
-    if (!isOperating) {
+    if (hasResult) {
         topDisplayMessage += `${currentValue} =`; 
+        hasResult = false;
     }
     topDisplay.textContent = topDisplayMessage;
 }
@@ -55,10 +56,12 @@ clear.addEventListener("click", allClear);
 
 function allClear() {
     mainDisplay.textContent = "0";
+    topDisplayMessage = "";
     topDisplay.textContent = "";
     currentValue = "0";
-    prevValue = "0";
-    isOperating = false;
+    prevValue = "";
+    operationSymbol = "";
+    hasResult = false;
     currentOperator = undefined;
 }
 
@@ -67,17 +70,13 @@ operations.forEach(operator => {
 });
 
 function updateValues() {
-    operationSymbol = this.textContent;
-    if (isOperating) {
-        calculate();
-    } else {   
-        prevValue = currentValue;     
-        updateMainDisplay();
-        currentValue = "0";   
-        isOperating = true;   
+    calculate();
+    operationSymbol = this.textContent; 
+    prevValue = currentValue; 
+    if (!hasResult) {
         updateTopDisplay();
-    }
-
+    }  
+    currentValue = "0";  
 }
 
 const add = function (a, b) {
@@ -112,7 +111,10 @@ function storeOperator(operator) {
     currentOperator = operator;
 } 
 
-equalButton.addEventListener("click", calculate);
+equalButton.addEventListener("click", () => {
+    hasResult = true;
+    calculate();
+});
 
 deleteButton.addEventListener("click", del);
 
@@ -140,15 +142,12 @@ function round(value) {
 }
 
 function calculate() {
-    if (currentOperator === undefined || !isOperating) return;  
-    isOperating = false;
+    if (currentOperator === undefined) return; 
     updateTopDisplay(); 
-    if (currentOperator === divide && currentValue === "0") {
+    if (currentOperator === divide && currentValue === "0") { // cannot divide by 0
         mainDisplay.textContent = "don't do that.";
-        currentValue = "0";
     } else {
         currentValue = round(operate(currentOperator, prevValue, currentValue));
         updateMainDisplay();
     }
-    prevValue = "0";
 }
