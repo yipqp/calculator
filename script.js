@@ -56,7 +56,7 @@ function allClear() {
     mainDisplay.textContent = "0";
     topDisplay.textContent = "";
     currentValue = "0";
-    prevValue = "";
+    prevValue = "0";
     isOperating = false;
     currentOperator = undefined;
 }
@@ -120,18 +120,13 @@ function del() {
     } else {
         currentValue = "0";
     }
-
     updateMainDisplay();
 }
 
 function calculate() {
+    if (currentValue === "0" && prevValue !== "0" || currentOperator === undefined || !isOperating) return;
     updateTopDisplay(); 
-    if (currentOperator !== undefined) {
-        currentValue = operate(currentOperator, prevValue, currentValue).toString();
-        if (currentValue.length > 17) { // no long decimals
-            currentValue = currentValue.slice(0, 17);
-        }
-    } 
+    currentValue = +operate(currentOperator, prevValue, currentValue).toFixed(15); // round long decimals
     updateMainDisplay();
     prevValue = "0";
     isOperating = false;
