@@ -7,6 +7,7 @@ const multiplyButton = document.querySelector("#multiply");
 const subtractButton = document.querySelector("#subtract");
 const addButton = document.querySelector("#add");
 const equalButton = document.querySelector("#equals");
+const deleteButton = document.querySelector("#delete");
 const clear = document.querySelector("#clear");
 let prevValue = "0";
 let currentValue = "0";
@@ -110,6 +111,18 @@ function storeOperator(operator) {
 } 
 
 equalButton.addEventListener("click", calculate);
+
+deleteButton.addEventListener("click", del);
+
+function del() {
+    if (currentValue.length > 1) {
+        currentValue = currentValue.slice(0, currentValue.length - 1);   
+    } else {
+        currentValue = "0";
+    }
+
+    updateMainDisplay();
+}
 
 function calculate() {
     updateTopDisplay(); 
