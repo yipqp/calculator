@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito&display=swap');
 
-/* https://colorhunt.co/palette/404258474e6850577a6b728e */
-
 body {
     display: flex;
     flex-direction: column;
@@ -18,6 +16,8 @@ body {
 .title {
     font-size: 1.8rem;
     letter-spacing: 2px;
+    margin: 0;
+    padding-top: 1rem;
 }
 
 main {
