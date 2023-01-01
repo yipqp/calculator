@@ -16,6 +16,7 @@ body {
 }
 
 .title {
+    font-size: 1.8rem;
     letter-spacing: 2px;
 }
 
@@ -101,6 +102,15 @@ button:active {
 
 .footer {
     padding: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 #clear,
